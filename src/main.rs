@@ -1,10 +1,10 @@
 fn main() {
     let mem = Box::new([
         // addi r0 0x0a r0
-        0b0000_0000_0000_1010_0000_0000_0000_0001,
+        0b0000_0000_0000_1010_0000_0000_1000_0000,
 
         // halt
-        0b0000_0000_0000_0000_0000_0000_0100_0000,
+        0b0000_0000_0000_0000_0000_0000_0010_0000,
     ]);
 
     let mut cpu = Cpu::new(mem);
@@ -45,7 +45,7 @@ impl Cpu {
         let instr = self.load_u32(instr_pc).to_le_bytes();
         reg!(REG_PC) = instr_pc.wrapping_add(1);
 
-        let opcode = instr[0] >> 1;
+        let opcode = instr[0] & 0b0111_1111;
 
         println!("Instr: {instr:02x?}");
 
@@ -57,7 +57,7 @@ impl Cpu {
 
         macro_rules! operand_b_or_imm {
             () => {{
-                let imm = (instr[0] & 1) == 1;
+                let imm = (instr[0] >> 7) == 1;
                 if imm {
                     instr[2] as u32
                 } else {

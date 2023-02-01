@@ -11,8 +11,8 @@
 
 All instructions are one word.
 
-    - 7-bit opcode
     - 1-bit immediate flag
+    - 7-bit opcode
     - Either:
       - Type A: 8-bit source reg, 8-bit source reg / 8-bit immediate, 8-bit dest
       - Type B: 8-bit source reg / 24-bit intermediate
