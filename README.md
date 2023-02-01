@@ -81,10 +81,14 @@ There are 16 32-bit registers.
     16      br_gt
     17      br_le
     18      br_ge
-
     19      br_neg
     1a      br_pos
+
     1b      br_ltu
     1c      br_gtu
     1d      br_leu
     1e      br_geu
+
+### Control
+
+    20      halt
