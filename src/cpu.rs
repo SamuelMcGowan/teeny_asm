@@ -168,7 +168,7 @@ impl Cpu {
                 self.io_out = true;
             }
             0x23 => {
-                self.io_in = false;
+                self.io_in = true;
             }
 
             _ => {}
