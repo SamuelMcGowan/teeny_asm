@@ -26,15 +26,25 @@ enum ControlFlow {
 struct Cpu {
     registers: [u32; 16],
     mem: Box<[u32]>,
+
+    io_out: bool,
+    io_in: bool,
 }
 
 impl Cpu {
     fn new(mem: Box<[u32]>) -> Self {
-        let registers = [0; 16];
-        Self { registers, mem }
+        Self {
+            registers: [0; 16],
+            mem,
+            io_out: false,
+            io_in: false,
+        }
     }
 
     fn tick(&mut self) -> ControlFlow {
+        self.io_out = false;
+        self.io_in = false;
+
         macro_rules! reg {
             ($reg:expr) => {
                 self.registers[(($reg) & 0xf) as usize]
@@ -160,6 +170,13 @@ impl Cpu {
 
             // nop
             0x21 => {}
+
+            0x22 => {
+                self.io_out = true;
+            }
+            0x23 => {
+                self.io_in = false;
+            }
 
             _ => {}
         }
