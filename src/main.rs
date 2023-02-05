@@ -120,13 +120,13 @@ impl Cpu {
             }
 
             // call
-            0x1f => {
+            0x11 => {
                 reg!(operand_a!()) = instr_pc;
                 reg!(REG_PC) = operand_b_or_imm!();
             }
 
             // conditional branching
-            0x11..=0x1e => {
+            0x12..=0x1f => {
                 let a = operand_a!();
                 let b = operand_c!();
 
@@ -136,24 +136,24 @@ impl Cpu {
                 let dest = operand_b_or_imm!();
 
                 let should_branch = match opcode {
-                    0x11 => a == 0,
-                    0x12 => a != 0,
-                    0x13 => a == b,
-                    0x14 => a != b,
+                    0x12 => a == 0,
+                    0x13 => a != 0,
+                    0x14 => a == b,
+                    0x15 => a != b,
 
                     // signed
-                    0x15 => a_s < b_s,
-                    0x16 => a_s > b_s,
-                    0x17 => a_s <= b_s,
-                    0x18 => a_s >= b_s,
-                    0x19 => a_s.is_negative(),
-                    0x1a => a_s.is_positive(),
+                    0x16 => a_s < b_s,
+                    0x17 => a_s > b_s,
+                    0x18 => a_s <= b_s,
+                    0x19 => a_s >= b_s,
+                    0x1a => a_s.is_negative(),
+                    0x1b => a_s.is_positive(),
 
                     // unsigned
-                    0x1b => a < b,
-                    0x1c => a > b,
-                    0x1d => a <= b,
-                    0x1e => a >= b,
+                    0x1c => a < b,
+                    0x1d => a > b,
+                    0x1e => a <= b,
+                    0x1f => a >= b,
 
                     _ => unreachable!(),
                 };

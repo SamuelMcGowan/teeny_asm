@@ -60,7 +60,7 @@ There are 16 32-bit registers.
     Operand 2: dest addr
 
     10      br
-    1f      call
+    11      call
 
 ### Conditional Branching
 
@@ -72,22 +72,22 @@ There are 16 32-bit registers.
 
     The immediate operand (operand B) is used for the destination address, rather than the value being compared.
 
-    11      br_z
-    12      br_nz
-    13      br_eq
-    14      br_neq
+    12      br_z
+    13      br_nz
+    14      br_eq
+    15      br_neq
 
-    15      br_lt
-    16      br_gt
-    17      br_le
-    18      br_ge
-    19      br_neg
-    1a      br_pos
+    16      br_lt
+    17      br_gt
+    18      br_le
+    19      br_ge
+    1a      br_neg
+    1b      br_pos
 
-    1b      br_ltu
-    1c      br_gtu
-    1d      br_leu
-    1e      br_geu
+    1c      br_ltu
+    1d      br_gtu
+    1e      br_leu
+    1f      br_geu
 
 ### Control
 
