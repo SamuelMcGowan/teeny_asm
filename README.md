@@ -39,6 +39,7 @@ There are 16 32-bit registers.
     ======
     Operand 1: operand a
     Operand 2: operand b
+    Operand 3: dest
 
     00      add
     01      sub
@@ -68,7 +69,7 @@ There are 16 32-bit registers.
     ======
     Operand 1: operand a
     Operand 2: dest addr
-    Operand 3: operand b
+    Operand 3: operand b (if needed)
 
     The immediate operand (operand B) is used for the destination address, rather than the value being compared.
 
@@ -92,3 +93,6 @@ There are 16 32-bit registers.
 ### Control
 
     20      halt
+    21      nop
+    22      io_out
+    23      io_in
