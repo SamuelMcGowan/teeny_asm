@@ -24,12 +24,12 @@ Instructions that use an operand that can be an immediate have a separate immedi
 There are 16 32-bit registers.
 
     - r0-r7
-    - r8-r12
-    - r13 / io_addr
-    - r14 / io_data
-    - r15 / pc
+    - r8-rc
+    - io_addr
+    - io_data
+    - pc
 
-`r8`-`r12` could end up not being general purpose, so they should be treated as unused for now.
+`r8`-`rc` could end up not being general purpose, so they should be treated as unused for now.
 
 ## Instruction Set
 
