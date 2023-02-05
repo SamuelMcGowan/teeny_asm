@@ -158,6 +158,9 @@ impl Cpu {
                 return ControlFlow::Halt;
             }
 
+            // nop
+            0x21 => {}
+
             _ => {}
         }
 
