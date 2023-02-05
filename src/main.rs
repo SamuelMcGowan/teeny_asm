@@ -2,15 +2,12 @@ fn main() {
     let mem = Box::new([
         // addi r0 0x0a r0
         0b0000_0000_0000_1010_0000_0000_1000_0000,
-
         // halt
         0b0000_0000_0000_0000_0000_0000_0010_0000,
     ]);
 
     let mut cpu = Cpu::new(mem);
     while let ControlFlow::Continue = cpu.tick() {}
-
-    println!("Result: {:02x}", cpu.registers[0]);
 }
 
 const REG_IO_ADDR: u32 = 13;
@@ -18,6 +15,7 @@ const REG_IO_DATA: u32 = 14;
 const REG_PC: u32 = 15;
 
 #[must_use]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ControlFlow {
     Continue,
     Halt,
@@ -57,7 +55,7 @@ impl Cpu {
 
         let opcode = instr[0] & 0b0111_1111;
 
-        println!("Instr: {instr:02x?}");
+        println!("{instr_pc:02x?}\t{instr:02x?}");
 
         macro_rules! operand_a {
             () => {
@@ -185,6 +183,8 @@ impl Cpu {
 
             _ => {}
         }
+
+        println!("\t{:02x?}", self.registers);
 
         ControlFlow::Continue
     }
