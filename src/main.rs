@@ -13,24 +13,31 @@ fn main() {
         .compact()
         .init();
 
-    let mem = read_bin("examples/loop.bin")
-        .expect("couldn't read file")
-        .into_boxed_slice();
+    let Some(path) = std::env::args().nth(1) else {
+        eprintln!("USAGE: teeny_asm [path]");
+        return;
+    };
+
+    run_bin(&path).unwrap();
+}
+
+fn run_bin(path: &str) -> io::Result<()> {
+    let mem = read_bin(path)?.into_boxed_slice();
 
     let mut cpu = Cpu::new(mem);
     loop {
         let ctrl = cpu.tick();
 
         if let Some((1, data)) = cpu.output() {
-            std::io::stdout()
-                .write_all(&[data as u8])
-                .expect("failed to write byte");
+            std::io::stdout().write_all(&[data as u8])?;
         }
 
         if let ControlFlow::Halt = ctrl {
             break;
         }
     }
+
+    Ok(())
 }
 
 fn read_bin(path: &str) -> io::Result<Vec<u32>> {
