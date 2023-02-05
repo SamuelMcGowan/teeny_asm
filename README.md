@@ -98,3 +98,14 @@ There are 16 32-bit registers.
     21      nop
     22      io_out
     23      io_in
+
+### Memory
+
+    Type A
+    ======
+    Operand 1: data (store)
+    Operand 2: addr
+    Operand 3: dest reg (load)
+
+    30      store
+    31      load

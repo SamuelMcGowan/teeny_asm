@@ -117,3 +117,12 @@
     io_out => 0x22_00_00_00
     io_in  => 0x23_00_00_00
 }
+
+#ruledef memory
+{
+    store  {data:reg} {addr:reg}  =>       0x30   @ data @ addr @ 0x00
+    load   {addr:reg}, {dest:reg} =>       0x31   @ 0x00 @ addr @ dest
+
+    storei {data:reg} {addr:u8}   => 0b1 @ 0x30`7 @ data @ addr @ 0x00
+    loadi  {addr:reg}, {dest:reg} => 0b1 @ 0x31`7 @ 0x00 @ addr @ dest
+}

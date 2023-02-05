@@ -171,6 +171,14 @@ impl Cpu {
                 self.io_in = true;
             }
 
+            // memory
+            0x30 => {
+                self.store_u32(operand_b_or_imm!(), operand_a!());
+            }
+            0x31 => {
+                operand_c!() = self.load_u32(operand_b_or_imm!());
+            }
+
             _ => {}
         }
 
@@ -199,5 +207,11 @@ impl Cpu {
 
     fn load_u32(&self, address: u32) -> u32 {
         self.mem.get(address as usize).copied().unwrap_or_default()
+    }
+
+    fn store_u32(&mut self, address: u32, data: u32) {
+        if let Some(dest) = self.mem.get_mut(address as usize) {
+            *dest = data;
+        }
     }
 }
