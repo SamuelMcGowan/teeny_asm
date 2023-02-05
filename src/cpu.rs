@@ -74,7 +74,7 @@ impl Cpu {
 
         match opcode {
             // arithmetic and logic
-            0x00..=0x0a => {
+            0x00..=0x0f => {
                 let a = operand_a!();
                 let b = operand_b_or_imm!();
 
