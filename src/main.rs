@@ -91,6 +91,10 @@ impl Cpu {
                 let b = operand_b_or_imm!();
 
                 let c = match opcode {
+                    // this is pretty common so should
+                    // be the first thing to check for
+                    0x0f => b,
+
                     0x00 => a.wrapping_add(b),
                     0x01 => a.wrapping_sub(b),
                     0x02 => a.wrapping_mul(b),
@@ -108,6 +112,7 @@ impl Cpu {
                     0x08 => a ^ b,
                     0x09 => a << b,
                     0x0a => a >> b,
+
                     _ => return ControlFlow::Continue,
                 };
 

@@ -53,6 +53,8 @@ There are 16 32-bit registers.
     09      shl
     0a      shr
 
+    0f      mov (moves operand b to dest)
+
 ### Unconditional Branching
 
     Type A
