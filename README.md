@@ -57,8 +57,8 @@ There are 16 32-bit registers.
 
     Type A
     ======
-    Operand 1: link register (for call)
     Operand 2: dest addr
+    Operand 3: link register (for call)
 
     10      br
     11      call

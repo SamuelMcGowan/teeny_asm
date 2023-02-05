@@ -121,7 +121,7 @@ impl Cpu {
 
             // call
             0x11 => {
-                reg!(operand_a!()) = instr_pc;
+                reg!(operand_c!()) = instr_pc;
                 reg!(REG_PC) = operand_b_or_imm!();
             }
 
