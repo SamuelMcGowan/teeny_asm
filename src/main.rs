@@ -1,4 +1,11 @@
+use tracing::{trace, Level};
+
 fn main() {
+    tracing_subscriber::fmt()
+        .with_max_level(Level::TRACE)
+        .compact()
+        .init();
+
     let mem = Box::new([
         // addi r0 0x0a r0
         0b0000_0000_0000_1010_0000_0000_1000_0000,
@@ -55,7 +62,7 @@ impl Cpu {
 
         let opcode = instr[0] & 0b0111_1111;
 
-        println!("{instr_pc:02x?}\t{instr:02x?}");
+        trace!("{instr_pc:02x?}  {instr:02x?}");
 
         macro_rules! operand_a {
             () => {
@@ -184,7 +191,7 @@ impl Cpu {
             _ => {}
         }
 
-        println!("\t{:02x?}", self.registers);
+        trace!("    {:02x?}", self.registers);
 
         ControlFlow::Continue
     }
