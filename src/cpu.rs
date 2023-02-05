@@ -179,6 +179,24 @@ impl Cpu {
         ControlFlow::Continue
     }
 
+    pub fn output(&self) -> Option<(u32, u32)> {
+        let addr = self.registers[REG_IO_ADDR as usize];
+        let data = self.registers[REG_IO_DATA as usize];
+
+        self.io_out.then_some((addr, data))
+    }
+
+    pub fn input(&mut self, address: u32, n: u32) -> bool {
+        let addr = self.registers[REG_IO_ADDR as usize];
+
+        if self.io_in && addr == address {
+            self.registers[REG_IO_DATA as usize] = n;
+            true
+        } else {
+            false
+        }
+    }
+
     fn load_u32(&self, address: u32) -> u32 {
         self.mem.get(address as usize).copied().unwrap_or_default()
     }
