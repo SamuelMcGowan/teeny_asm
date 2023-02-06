@@ -26,6 +26,3 @@ halt
 ; define stack
 #align 32
 stack:
-    #res 0x1000
-; force stack to exist
-#d 0x00

@@ -5,7 +5,7 @@ use std::io::{self, Write};
 
 use byteorder::{NativeEndian, ReadBytesExt};
 use cpu::{ControlFlow, Cpu};
-use tracing::Level;
+use tracing::{warn, Level};
 
 fn main() {
     tracing_subscriber::fmt()
@@ -18,11 +18,18 @@ fn main() {
         return;
     };
 
-    run_bin(&path).unwrap();
+    run_bin(&path, 0x1000).unwrap();
 }
 
-fn run_bin(path: &str) -> io::Result<()> {
-    let mem = read_bin(path)?.into_boxed_slice();
+fn run_bin(path: &str, mem_size: usize) -> io::Result<()> {
+    let mut mem = read_bin(path)?;
+    if mem.len() < mem_size {
+        mem.resize(mem_size, 0);
+    } else {
+        warn!("memory is larger than expected");
+    }
+
+    let mem = mem.into_boxed_slice();
 
     let mut cpu = Cpu::new(mem);
     loop {
