@@ -5,6 +5,7 @@ movi 58, r1
 
 movi 1, io_addr
 
+start:
 loop:
     mov r0, io_data
     io_out
