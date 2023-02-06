@@ -1,10 +1,12 @@
 mod cpu;
+mod device;
 
 use std::fs::File;
-use std::io::{self, Write};
+use std::io;
 
 use byteorder::{NativeEndian, ReadBytesExt};
 use cpu::{ControlFlow, Cpu};
+use device::{Devices, Printer, Reader};
 use tracing::{warn, Level};
 
 fn main() {
@@ -18,10 +20,14 @@ fn main() {
         return;
     };
 
-    run_bin(&path, 0x1000).unwrap();
+    let mut devices = Devices::default();
+    devices.insert(1, Printer(std::io::stdout()));
+    devices.insert(2, Reader(std::io::stdin()));
+
+    run_bin(&path, 0x1000, devices).unwrap();
 }
 
-fn run_bin(path: &str, mem_size: usize) -> io::Result<()> {
+fn run_bin(path: &str, mem_size: usize, devices: Devices) -> io::Result<()> {
     let mut mem = read_bin(path)?;
     if mem.len() < mem_size {
         mem.resize(mem_size, 0);
@@ -31,18 +37,8 @@ fn run_bin(path: &str, mem_size: usize) -> io::Result<()> {
 
     let mem = mem.into_boxed_slice();
 
-    let mut cpu = Cpu::new(mem);
-    loop {
-        let ctrl = cpu.tick();
-
-        if let Some((1, data)) = cpu.output() {
-            std::io::stdout().write_all(&[data as u8])?;
-        }
-
-        if let ControlFlow::Halt = ctrl {
-            break;
-        }
-    }
+    let mut cpu = Cpu::new(mem, devices);
+    while let ControlFlow::Continue = cpu.tick() {}
 
     Ok(())
 }

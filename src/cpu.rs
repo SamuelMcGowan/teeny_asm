@@ -1,5 +1,7 @@
 use tracing::trace;
 
+use crate::device::Devices;
+
 const REG_IO_ADDR: u32 = 12;
 const REG_IO_DATA: u32 = 13;
 const REG_SP: u32 = 14;
@@ -18,19 +20,30 @@ pub struct Cpu {
 
     io_out: bool,
     io_in: bool,
+
+    devices: Devices,
 }
 
 impl Cpu {
-    pub fn new(mem: Box<[u32]>) -> Self {
+    pub fn new(mem: Box<[u32]>, devices: Devices) -> Self {
         Self {
             registers: [0; 16],
             mem,
+
             io_out: false,
             io_in: false,
+
+            devices,
         }
     }
 
     pub fn tick(&mut self) -> ControlFlow {
+        let ctrl = self.run_instr();
+        self.handle_io();
+        ctrl
+    }
+
+    fn run_instr(&mut self) -> ControlFlow {
         self.io_out = false;
         self.io_in = false;
 
@@ -188,21 +201,17 @@ impl Cpu {
         ControlFlow::Continue
     }
 
-    pub fn output(&self) -> Option<(u32, u32)> {
-        let addr = self.registers[REG_IO_ADDR as usize];
-        let data = self.registers[REG_IO_DATA as usize];
+    fn handle_io(&mut self) {
+        if self.io_in {
+            let addr = self.registers[REG_IO_ADDR as usize];
+            let data = self.devices.get_input(addr);
+            self.registers[REG_IO_DATA as usize] = data;
+        }
 
-        self.io_out.then_some((addr, data))
-    }
-
-    pub fn input(&mut self, address: u32, n: u32) -> bool {
-        let addr = self.registers[REG_IO_ADDR as usize];
-
-        if self.io_in && addr == address {
-            self.registers[REG_IO_DATA as usize] = n;
-            true
-        } else {
-            false
+        if self.io_out {
+            let addr = self.registers[REG_IO_ADDR as usize];
+            let data = self.registers[REG_IO_DATA as usize];
+            self.devices.set_output(addr, data)
         }
     }
 
