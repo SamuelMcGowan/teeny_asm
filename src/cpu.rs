@@ -1,7 +1,8 @@
 use tracing::trace;
 
-const REG_IO_ADDR: u32 = 13;
-const REG_IO_DATA: u32 = 14;
+const REG_IO_ADDR: u32 = 12;
+const REG_IO_DATA: u32 = 13;
+const REG_SP: u32 = 14;
 const REG_PC: u32 = 15;
 
 #[must_use]

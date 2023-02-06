@@ -16,9 +16,9 @@
     r9 => 0x09
     ra => 0x0a
     rb => 0x0b
-    rc => 0x0c
-    io_addr => 0x0d
-    io_data => 0x0e
+    io_addr => 0x0c
+    io_data => 0x0d
+    sp => 0x0e
     pc => 0x0f
 }
 
