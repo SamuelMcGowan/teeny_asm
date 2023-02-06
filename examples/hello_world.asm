@@ -2,7 +2,7 @@
 
 start:
     movi msg, r0
-    calli print_cstr, r1
+    calli print_cstr
     halt
 
 msg:

@@ -15,7 +15,10 @@
     r8 => 0x08
     r9 => 0x09
     ra => 0x0a
+
     rb => 0x0b
+    link => 0x0b
+
     io_addr => 0x0c
     io_data => 0x0d
     sp => 0x0e
@@ -62,11 +65,11 @@
 
 #ruledef branching
 {
-    br   {dest:reg}             =>       0x10   @ 0x00 @ dest @ 0x00
-    call {dest:reg}, {link:reg} =>       0x11   @ 0x00 @ dest @ link
+    br  {dest:reg}             =>       0x10   @ 0x00 @ dest @ 0x00
+    bri {dest:u8}              => 0b1 @ 0x10`7 @ 0x00 @ dest @ 0x00
 
-    bri   {dest:u8}             => 0b1 @ 0x10`7 @ 0x00 @ dest @ 0x00
-    calli {dest:u8}, {link:reg} => 0b1 @ 0x11`7 @ 0x00 @ dest @ link
+    bl  {dest:reg}, {link:reg} =>       0x11   @ 0x00 @ dest @ link
+    bli {dest:u8},  {link:reg} => 0b1 @ 0x11`7 @ 0x00 @ dest @ link
 }
 
 #ruledef cond_branching

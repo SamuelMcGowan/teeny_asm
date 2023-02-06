@@ -22,10 +22,26 @@
     }
 }
 
-lib_start:
-    bri start
+#ruledef calls
+{
+    call {addr:reg} => asm {
+        bl {addr}, link
+    }
 
-; takes addr in r0, ret addr in r1
+    calli {addr} => asm {
+        bli addr, link
+    }
+
+    ret => asm {
+        br link
+    }
+}
+
+lib_start:
+    calli start
+    halt
+
+; takes addr in r0, ret addr in ret
 ; also overwrites r2, io_addr, io_data
 print_cstr:
     ; set device to printer
@@ -61,4 +77,4 @@ print_cstr:
         bri .looptop
 
     .end:
-        br r1
+        ret

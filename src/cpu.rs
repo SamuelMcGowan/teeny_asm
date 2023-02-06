@@ -2,6 +2,7 @@ use tracing::trace;
 
 use crate::device::Devices;
 
+const REG_RET: u32 = 11;
 const REG_IO_ADDR: u32 = 12;
 const REG_IO_DATA: u32 = 13;
 const REG_SP: u32 = 14;
@@ -126,7 +127,7 @@ impl Cpu {
                 reg!(REG_PC) = operand_b_or_imm!();
             }
 
-            // call
+            // branch and link
             0x11 => {
                 operand_c!() = reg!(REG_PC);
                 reg!(REG_PC) = operand_b_or_imm!();
