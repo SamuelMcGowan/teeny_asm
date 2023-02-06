@@ -18,7 +18,7 @@ All instructions are one word.
       - Type A: 8-bit source reg, 8-bit source reg / 8-bit immediate, 8-bit dest
       - Type B: 8-bit source reg / 24-bit intermediate
 
-Instructions that use an operand that can be an immediate have a separate immediate mnemonic in the assembly language. For example, `addi r0 12 r1` would denote adding `12` to the value in `r0` and placing the result in `r1`.
+Instructions that use an operand that can be an immediate have a separate immediate mnemonic in the assembly language. For example, `addi r0 12, r1` would denote adding `12` to the value in `r0` and placing the result in `r1`.
 
 ## Registers
 
