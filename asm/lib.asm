@@ -5,8 +5,8 @@
 {
     zero {dest:reg} => asm { movi 0, {dest} }
 
-    incr {n:u8}, {dest:reg} => asm { addi {dest} n, {dest} }
-    decr {n:u8}, {dest:reg} => asm { subi {dest} n, {dest} }
+    incr {n:u8}, {dest:reg} => asm { addi {dest} n`8, {dest} }
+    decr {n:u8}, {dest:reg} => asm { subi {dest} n`8, {dest} }
 }
 
 #ruledef stack

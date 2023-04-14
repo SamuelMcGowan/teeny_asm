@@ -11,7 +11,7 @@ use tracing::{warn, Level};
 
 fn main() {
     tracing_subscriber::fmt()
-        .with_max_level(Level::TRACE)
+        .with_max_level(Level::DEBUG)
         .compact()
         .init();
 
